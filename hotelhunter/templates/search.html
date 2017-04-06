@@ -1,0 +1,450 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Hotel Hunter</title>
+  <link rel="icon" type="image/png" href={% static "img/Untitled-6.png" %}>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src={% static "js/loader.js" %}></script>
+  <link rel="stylesheet" type="text/css" href={% static "css/style.css" %}>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link href={% static "css/star-rating.css" %} media="all" rel="stylesheet" type="text/css"/>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src={% static "js/star-rating.js" %} type="text/javascript"></script>
+  <script>
+    function setURL(num, keyword, goto, url){
+      if(goto == undefined)
+        goto = true
+      if(url == undefined)
+        url = window.location.href;
+      search = keyword+"=([0-9 a-z A-Z]|\\.|%)+"
+      find = url.match(RegExp(search, 'i'));
+      if(find){
+        url = url.replace(find[0], "{SET}")
+        while(rm = url.match(RegExp("&"+search, 'i'))){
+          url = url.replace(rm, "")
+        }
+        if(num != "None"){
+          url = url.replace("{SET}", keyword+"="+num)
+        }else{
+          url = url.replace("&{SET}", "")
+          url = url.replace("{SET}", "")
+        }
+      }else if(num != "None"){
+        url = url + "&"+keyword+"="+num
+      }
+      while(url.match(/#/)){
+        url = url.replace("#", "")
+      }
+      while(url.match(/&&/)){
+        url = url.replace("&&", "&")
+      }
+      if(goto){
+        window.location.href = url
+      }else{
+        return url
+      }
+    }
+
+    function setFilter(num, keyword){
+      var url = setURL(num, keyword, false)
+      setURL('1', 'page', true, url)
+    }
+  </script>
+</head>
+
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60" >
+<nav class="navbar navbar-default  navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'index' %}" >HOTEL HUNTER</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#contact">CONTACT</a></li>
+        {% if request.session.user %}
+          <li><a data-toggle="modal" href="{% url 'signout' %}">SIGN-OUT</a></li>
+        {% else %}
+          <li><a data-toggle="modal" href="#signin" data-target="#signin">SIGN-IN</a></li>
+          <li><a data-toggle="modal" href="#signup" data-target="#signup">SIGN-UP</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% include "sign_in.html" %}
+{% include "sign_up.html" %}
+
+	<div class="container">
+		<div>
+			<section >
+			<br>
+				<form action="{url 'search' }" id="searchbar" method="GET">
+				    <div class="col-sm-2" style="">
+				      <p class="namebar">Search:</p>
+				      <input type="text" id="des" name="des" class="Search form-control" {% if request.GET.des %}value="{{request.GET.des}}"{% endif %} size="30" placeholder=" Enter a Destination" required >
+				    </div>
+
+				    <div class="col-sm-2">
+				    <p class="namebar">Check-in:</p>
+				      <input type="date" name="bday" {% if request.GET.bday %} value="{{request.GET.bday}}"{% endif %} class="form-control">
+				    </div>
+				    <div class="col-sm-2">
+				    <p class="namebar">Check-out:</p>
+				      <input type="date" name="dday" {% if request.GET.dday %} value="{{request.GET.dday}}"{% endif %} class="form-control">
+				    </div>
+
+				    <div class="col-sm-2">
+				    <p class="namebar">Trip Type:</p>
+				      <select id="triptype" name="triptype" width="800" class="form-control">
+				        <option value=""></option>
+				        <option value="business" {% if request.GET.triptype == "business" %} selected {% endif %}>Business</option>
+				        <option value="leisure" {% if request.GET.triptype == "leisure" %} selected {% endif %}>Leisure</option>
+				      </select>
+				    </div>
+
+				    <div class="col-sm-2">
+				    <p class="namebar">Companion:</p>
+				      <select id="companion" name="companion" class="form-control">
+				        <option value=""></option>
+				        <option value="solo" {% if request.GET.companion == "solo" %} selected {% endif %} >Solo</option>
+				        <option value="couple" {% if request.GET.companion == "couple" %} selected {% endif %} >Couple</option>
+				        <option value="friend" {% if request.GET.companion == "friend" %} selected {% endif %} >Friends</option>
+				        <option value="family" {% if request.GET.companion == "family" %} selected {% endif %} >Family</option>
+				      </select>
+				    </div>
+
+				    <div id="bHunt" class="col-sm-2">
+				        <br>
+				        <button type="submit" class="btn btn-danger" style="width: 90%;">HUNT</button>
+				    </div>
+				    <br><br>
+				  </form>
+			</section>
+		</div>
+		<div>
+      <center>
+			<section>
+			<div class="col-sm-2"></div>
+			<div class="col-sm-2" id="boxSort">
+			<label id="nameSort">Sort result by:</label>
+			</div>
+			<div class="col-sm-3" id="sortPrice">
+				<button id="gPrice" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" style="width: 80%; height: 70%;">Price
+			    <span class="caret"></span></button>
+			    <ul class="dropdown-menu">
+			      <li><a onclick="setURL('h2lp', 'sort')">high to low</a></li>
+			      <li><a onclick="setURL('l2hp', 'sort')">low to high</a></li>
+			    </ul>
+      </div>
+      <div class="col-sm-3" id="sortRating">
+				<button id="gRating" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" style="width: 80%; height: 70%;">Guest Rating
+			    <span class="caret"></span></button>
+			    <ul class="dropdown-menu">
+			      <li><a onclick="setURL('h2lr', 'sort')">10 to 1</a></li>
+			      <li><a onclick="setURL('l2hr', 'sort')">1 to 10</a></li>
+			    </ul>
+			</div>
+			</section>
+      </center>
+		</div>
+	</div>
+	<div class="container" id="content">
+		<br>
+	<div class="col-sm-4">
+      <div class="rangeprice form-control">
+        <section class="range-slider">
+          <span class="rangeValues"></span>
+          <form onsubmit="return false" oninput="level.value = flevel.valueAsNumber">
+            <label id="pPern" for="flying">&nbsp;&nbsp;Price per night:</label>
+            <center><output for="flying" name="level"><b>{% if price == None %}All{% else %}{{ price }}{% endif %}</b></output></center>
+            <center><input onmouseup="setFilter(this.value, 'fprice')" name="flevel" id="flying" type="range" min="0" max="70000" value="{{ price }}"></center>
+            <label class="min-maxLeft">THB 0</label>
+            <label class="min-maxRight">THB 70,000</label>
+            <br>
+          </form>
+        </section>
+      </div>
+      <hr>
+      <div class="rangeprice form-control">
+        <section class="range-slider">
+          <span class="rangeValues"></span>
+          <form onsubmit="return false" oninput="level.value = flevel.valueAsNumber">
+            <label id="gRate" for="flying">&nbsp;&nbsp;Guest rating:</label>
+            <center><output for="flying" name="level"><b>{% if rating == None %}All{% else %}{{ rating }}{% endif %}</b></output></center>
+            <center><input onmouseup="setFilter(this.value, 'frate')" name="flevel" id="flying" type="range" min="0.0" max="10.0" step="0.5" value="{{ rating }}"></center>
+            <label class="min-maxLeft">0 point</label>
+            <label class="min-maxRight">10 point</label>
+            <br>
+          </form>
+        </section>
+      </div>
+      <hr>
+      <div class="rangeprice form-control">
+
+              <label id="pPern" for="flying">&nbsp;&nbsp;District:</label>
+              <br>
+              <br>
+              <select id="triptype" name="triptype" width="800" onchange="setFilter(this.value, 'district')" class="form-control">
+                <option value="None" {% if request.GET.district == i %}selected{% endif %} >All</option>
+                {% for i in district %}
+				        <option value="{{ i }}" {% if request.GET.district == i %}selected{% endif %} >{{ i }}</option>
+                {% endfor %}
+              </select>
+              <br>
+
+      </div>
+      <hr>
+      <div class="rangeprice form-control">
+        <section class="range-slider">
+          <span class="rangeValues"></span>
+          <form onsubmit="return false" oninput="level.value = flevel.valueAsNumber">
+            <label id="gRate" for="flying">&nbsp;&nbsp;Stars:</label>
+            <center><output for="flying" name="level"><b>{% if stars == None %}All{% else %}{{ stars }}{% endif %}</b></output></center>
+            <center><input onmouseup="setFilter(this.value, 'stars')" name="flevel" id="flying" type="range" min="0.0" max="5" step="1" value="{{ stars }}"></center>
+            <label class="min-maxLeft">0 star</label>
+            <label class="min-maxRight">5 star</label>
+            <br>
+          </form>
+        </section>
+      </div>
+      <hr>
+      <div class="rangeprice form-control" id="rangePrice">
+          <label id="facility" for="flying"><b>Facilities:</b></label>
+          <br><br>
+          <div>
+            <input type="checkbox" name="checkboxG1" id="checkboxG1" class="css-checkbox" />
+            <label for="checkboxG1" class="css-label" style=" font-size: 15px;">Swimming Pool</label>
+          </div>
+
+          <div>
+            <input type="checkbox" name="checkboxG2" id="checkboxG2" class="css-checkbox" />
+            <label for="checkboxG2" class="css-label" style=" font-size: 15px;">Internet</label>
+          </div>
+
+          <div>
+            <input type="checkbox" name="checkboxG3" id="checkboxG3" class="css-checkbox" />
+            <label for="checkboxG3" class="css-label" style=" font-size: 15px;">Gym/fitness</label>
+          </div>
+
+          <div>
+            <input type="checkbox" name="checkboxG4" id="checkboxG4" class="css-checkbox" />
+            <label for="checkboxG4" class="css-label" style=" font-size: 15px;">Car Park</label>
+          </div>
+
+          <div>
+            <input type="checkbox" name="checkboxG5" id="checkboxG5" class="css-checkbox" />
+            <label for="checkboxG5" class="css-label" style=" font-size: 15px;">Spa/sauna</label>
+          </div>
+
+          <div>
+            <input type="checkbox" name="checkboxG6" id="checkboxG6" class="css-checkbox" />
+            <label for="checkboxG6" class="css-label" style=" font-size: 15px;">Business Facilities</label>
+          </div>
+
+          <div>
+            <input type="checkbox" name="checkboxG7" id="checkboxG7" class="css-checkbox" />
+            <label for="checkboxG7" class="css-label" style=" font-size: 15px;">Family/child Friendly</label>
+          </div>
+
+          <div>
+            <input type="checkbox" name="checkboxG8" id="checkboxG8" class="css-checkbox" />
+            <label for="checkboxG8" class="css-label" style=" font-size: 15px;">Restaurant</label>
+          </div>
+
+          <div>
+            <input type="checkbox" name="checkboxG9" id="checkboxG9" class="css-checkbox" />
+            <label for="checkboxG9" class="css-label" style=" font-size: 15px;">Non Smoking Rooms</label>
+          </div>
+
+          <div>
+            <input type="checkbox" name="checkboxG10" id="checkboxG10" class="css-checkbox" />
+            <label for="checkboxG10" class="css-label" style=" font-size: 15px;">Smoking Area</label>
+          </div>
+
+          <div>
+            <input type="checkbox" name="checkboxG11" id="checkboxG11" class="css-checkbox" />
+            <label for="checkboxG11" class="css-label" style=" font-size: 15px;">Airport Transfer</label>
+          </div>
+
+          <div>
+            <input type="checkbox" name="checkboxG12" id="checkboxG12" class="css-checkbox" />
+            <label for="checkboxG12" class="css-label" style=" font-size: 15px;">Pets Allowed</label>
+          </div>
+
+          <div>
+            <input type="checkbox" name="checkboxG13" id="checkboxG13" class="css-checkbox" />
+            <label for="checkboxG13" class="css-label" style=" font-size: 15px;">Facilities For Disabled Guests</label>
+          </div>
+
+          <div>
+            <input type="checkbox" name="checkboxG14" id="checkboxG14" class="css-checkbox" />
+            <label for="checkboxG14" class="css-label" style=" font-size: 15px;">Nightclub</label>
+          </div>
+
+          <div>
+            <input type="checkbox" name="checkboxG15" id="checkboxG15" class="css-checkbox" />
+            <label for="checkboxG15" class="css-label" style=" font-size: 15px;">Golf Course</label>
+          </div>
+
+      </div>
+      <hr>
+		</div>
+		<div class="col-sm-8">
+      <div id='result'></div>
+       <nav aria-label="Page navigation example" class="pull-right">
+         <ul class="pagination">
+           <li class="page-item {% if page == 1 %}disabled{% endif %}" {% if page != 1 %}onclick="setURL({{prev_page}}, 'page')"{% endif %}><a class="page-link" href="#">Previous</a></li>
+         	{% for i in showpages %}
+         		<li {% if i == page %}class="page-item active"{% else %}class="page-item"{% endif %}><a class="page-link" href="#" onclick="setURL({{i}}, 'page')">{{ i }}</a></li>
+         	{% endfor %}
+           <li class="page-item {% if page == pages %}disabled{% endif %}" {% if page != pages %}onclick="setURL({{next_page}}, 'page')"{% endif %}><a class="page-link" href="#">Next</a></li>
+         </ul>
+       </nav>
+         <br>
+         <br>
+         <br>
+         <br>
+		</div>
+
+
+    <div class="modal fade" id="book" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="margin-top: 5em;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="height: 50%; width: 80%; margin: auto;">
+                <div class="modal-body" id="first">
+                    <center><div class="loader" style=""></div>
+                    <label id="loading" style="font-size: 3em; margin-top: 0.5em; ">Loading...</label></center>
+                </div>
+                <div class="modal-body" id="second">
+                    <h1>Complete!</h1>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rating" id="ok" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <div class="modal fade" id="rating" role="dialog" style="margin-top: 2em;">
+    <div class="modal-dialog">
+
+      <div class="modal-content" style=" width: 100%; margin: auto;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h5 class="modal-title" style="font-size: 80%;"><span class="glyphicon glyphicon-tasks"></span> Please Rating</h5>
+        </div>
+        <form>
+          <div class="modal-body">
+            <a href="#">
+            <img src="" height="100" width="100">
+            <label style="font-size: 120%; margin-left: 1.5em; text-decoration: none; color: gray;">Hotel Name</label></a>
+            <br>
+            <label style="font-size: 100%; color: gray;">Rating: <input required id="input-21c" value="" type="text" title=""></label>
+            <div class="clearfix"></div>
+            <hr>
+            <label for="comments" style="color: gray;">Review :</label><br>
+            <textarea class="form-control" id="comments" name="comments" placeholder="How are you feeling for this hotel?" rows="3" style="width: 100%;"></textarea>
+          </div>
+          <div class="modal-footer">
+            <div class="form-group" style="margin-top:7px">
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="reset" class="btn btn-default">Reset</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <h2 class="text-center">RECOMMEND</h2>
+  <div class="carousel slide" id="myCarousel">
+    <div class="carousel-inner">
+    </div>
+
+    <br>
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" id="pre"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" id="nex"></span>
+          <span class="sr-only">Next</span>
+        </a>
+
+   <!-- /.control-box -->
+  </div>
+
+
+
+
+<div class="carousel slide" id="carouselInMobile">
+    <div class="carousel-inner">
+      <div class="list">
+      </div>
+    </div>
+    <br>
+        <a class="left carousel-control" href="#carouselInMobile" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" id="pre"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carouselInMobile" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" id="nex"></span>
+          <span class="sr-only">Next</span>
+        </a>
+   <!-- /.control-box -->
+  </div>
+</div>
+
+<br><br>
+
+  <div id="contact" class="container-fluid">
+    <h2 class="text-center">CONTACT</h2>
+    <div class="row">
+      <div class="col-sm-5">
+        <p>Contact us and we'll get back to you within 24 hours.</p>
+        <p><span class="glyphicon glyphicon-map-marker"></span> Bangkok, TH</p>
+        <p><span class="glyphicon glyphicon-phone"></span> +66 0894857066</p>
+        <p><span class="glyphicon glyphicon-envelope"></span> hotelhunter@gmail.com</p>
+      </div>
+      <div class="col-sm-7 slideanim">
+        <div class="row">
+          <div class="col-sm-6 form-group">
+            <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+          </div>
+          <div class="col-sm-6 form-group">
+            <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+          </div>
+        </div>
+        <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+        <div class="row">
+          <div class="col-sm-12 form-group">
+            <button class="btn btn-default pull-right" type="submit">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<footer class="container-fluid text-center">
+    <a href="#myPage" title="To Top">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+    <p>2016 – 2017, All Rights Reserved.
+HotelHunter.com is part of Project Group Chulalongkorn University, online travel & related services.</p>
+    <p>Created By Group of Project, Help By <a href="https://www.w3schools.com" title="Visit w3schools">www.w3schools.com</a></p>
+</footer>
+
+{% include 'script.js' %}
+
+</body>
+</html>

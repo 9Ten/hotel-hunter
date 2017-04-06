@@ -1,0 +1,73 @@
+<div class="modal fade" id="signup" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h5 class="glyphicon glyphicon-registration-mark"> Sign up</h5>
+        </div>
+        <form id="new_signup" method="POST">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="uname">Username:*</label>
+              <input type="text" id="uname" name="uname" placeholder=" Enter Username" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email:*</label>
+              <input type="email" id="email" name="email" placeholder=" Enter Email">
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password:*</label>
+              <input type="password" id="password_signup" name="password" required>
+            </div>
+
+            <div class="form-group">
+              <label for="con-password">Confirm-Password:*</label>
+              <input type="password" id="conpassword_signup" name="conpassword" required>
+            </div>
+            <div class="alert alert-danger exists" style="display: None">
+              Username <strong>exists!</strong>
+            </div>
+            <div class="alert alert-danger pass" style="display: None">
+              Password is not <strong>valid!</strong>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success" style="width: 30%;">Sign up</button>
+          </div>
+          {% csrf_token %}
+      </form>
+      </div>
+      </div>
+      <script>
+        $("#new_signup").submit(function(e) {
+
+          var url = "{% url 'signup' %}";
+          $('.alert.exists').css("display", "None");
+          $('.alert.pass').css("display", "None");
+          if($("#conpassword_signup").val() != $("#password_signup").val()){
+            $('.alert.pass').css("display", "block");
+          }else{
+            $.ajax({
+              type: "POST",
+              url: url,
+              data: $("#new_signup").serialize(), // serializes the form's elements.
+              success: function(data)
+              {
+                if(data == 'exists'){
+                  $('.alert.exists').css("display", "block");
+                }else{
+                  location.reload();
+                  alert("signup complete!");
+                }
+              },error: function(XMLHttpRequest, textStatus, errorThrown) {
+                 alert("some error");
+              }
+            });
+          }
+          e.preventDefault(); // avoid to execute the actual submit of the form.
+        });
+      </script>
+    </div>

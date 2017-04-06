@@ -1,0 +1,281 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+  <title>Hotel Hunter</title>
+  <link rel="icon" type="image/png" href="Untitled-6.png">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href={% static "css/style1.css" %}>
+  {% if err == 1 %}<script>alert("Please signin before HUNT.")</script>{% endif %}
+</head>
+
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'index' %}">HOTEL HUNTER</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#about">ABOUT</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+        {% if request.session.user %}
+          <li><a data-toggle="modal" href="{% url 'signout' %}">SIGN-OUT</a></li>
+        {% else %}
+          <li><a data-toggle="modal" href="#signin" data-target="#signin">SIGN-IN</a></li>
+          <li><a data-toggle="modal" href="#signup" data-target="#signup">SIGN-UP</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% include "sign_in.html" %}
+{% include "sign_up.html" %}
+
+<div class="jumbotron text-center">
+  <h1>HOTEL HUNTER</h1>
+  <p id="subhead">Travel with me!</p> <br><br>
+  <div id="first" class="container">
+  <form action="{% url 'search' %}" id="huntbar" >
+
+    <div class="col-sm-2"></div>
+    <div class="col-sm-2 " id="searchbar">
+      <p id="nSearch">Search:</p>
+      <input type="text" name="des" class="form-control" size="30" placeholder=" Enter a Destination" required style="">
+    </div>
+
+    <div class="col-sm-2" id="checktrip">
+      <p id="nCheckIn">Check-in:</p>
+      <input id='bday' type="date" name="bday" class="form-control" >
+      <p id="nTripType">Trip Type:</p>
+      <select id="triptype" name="triptype" width="800" class="form-control">
+        <option value=""></option>
+        <option value="business">Business</option>
+        <option value="leisure">Leisure</option>
+      </select>
+    </div>
+
+    <div class="col-sm-2" id="checkcom" >
+      <p id="nCheckOut" >Check-out:</p>
+      <input type="date" name="bday" class="form-control">
+      <p id="nCompanion" >Companion:</p>
+      <select id="companion" name="companion" class="form-control" style="">
+        <option value=""></option>
+        <option value="solo">Solo</option>
+        <option value="couple">Couple</option>
+        <option value="friend">Friends</option>
+        <option value="family">Family</option>
+      </select>
+    </div>
+
+    <div class="col-sm-2" id="hunt">
+        <br>
+        <button type="submit" class="btn btn-danger" id="bh">HUNT</button>
+    </div>
+    <div class="col-sm-2"></div>
+    <br><br>
+  </form>
+  </div>
+</div>
+
+<!-- Container (Portfolio Section) -->
+<div id="about" class="container-fluid text-center bg-grey">
+  <h2>ABOUT</h2><br>
+  <h4>Recommended just for you:</h4>
+  <div class="row text-center slideanim">
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src={% static "img/tokyo.jpg" %} alt="Tokyo" width="400" height="300">
+        <p><strong>Tokyo</strong></p>
+        <p>Tokyo is the capital of Japan and one of its 47 prefectures. The Greater Tokyo Area is the most populous metropolitan area in the world.</p>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src={% static "img/Singapore.jpg" %} alt="Kyoto" width="400" height="300">
+        <p><strong>Singapore</strong></p>
+        <p>The Republic of Singapore, officially the Republic of Singapore, sometimes referred to as the Lion City or the Little Red Dot.</p>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src={% static "img/bangkok.gif" %} alt="Osaka" width="400" height="300">
+        <p><strong>Bangkok</strong></p>
+        <p>Bangkok is the capital and most populous city of Thailand. It is known in Thai as Krung Thep Maha Nakhon or simply Krung Thep.</p>
+      </div>
+    </div>
+  </div><br>
+
+  <h2>Most popular destinations:</h2>
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+      <li data-target="#myCarousel" data-slide-to="4"></li>
+      <li data-target="#myCarousel" data-slide-to="5"></li>
+      <li data-target="#myCarousel" data-slide-to="6"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <center><img src={% static "img/yamaguchi.jpg" %} alt="New York" width="800" height="400" ></center>
+        <div class="carousel-caption">
+          <h3>Yamaguchi</h3>
+          <p>Yamaguchi is a prefecture of Japan in the Chūgoku region of the main island of Honshu.</p>
+        </div>
+      </div>
+      <div class="item">
+        <center><img src={% static "img/hokkaido.jpg" %} alt="Chicago" width="800" height="400" ></center>
+        <div class="carousel-caption">
+          <h3>Hokkaido</h3>
+          <p>Hokkaido is the second largest island of Japan, and the largest and northernmost prefecture.</p>
+        </div>
+      </div>
+      <div class="item">
+        <center><img src={% static "img/yamanachi.jpg" %} alt="Los Angeles" width="800" height="400" ></center>
+        <div class="carousel-caption">
+          <h3>Yamanashi</h3>
+          <p>Yamanashi is a prefecture of Japan located in the Chūbu region of the main island of Honshu.</p>
+        </div>
+      </div>
+      <div class="item">
+        <center><img src={% static "img/gifu.jpg" %} alt="Los Angeles" width="800" height="400" ></center>
+        <div class="carousel-caption">
+          <h3>Gifu</h3>
+          <p>Gifu is a prefecture in the Chūbu region of central Japan. Its capital is the city of Gifu.</p>
+        </div>
+      </div>
+      <div class="item">
+        <center><img src={% static "img/nara.jpg" %} alt="Los Angeles" width="800" height="400" ></center>
+        <div class="carousel-caption">
+          <h3>Nara</h3>
+          <p>Nara is a prefecture in the Kansai region of Japan. The capital is the city of Nara.</p>
+        </div>
+      </div>
+      <div class="item">
+        <center><img src={% static "img/gunma.jpg" %} alt="Los Angeles" width="800" height="400" ></center>
+        <div class="carousel-caption">
+          <h3>Gunma</h3>
+          <p>Gunma is a prefecture of Japan located in the northwest corner of the Kantō region on the main Honshu island.</p>
+        </div>
+      </div>
+      <div class="item">
+        <center><img src={% static "img/aomori.jpg" %} alt="Los Angeles" width="800" height="400" ></center>
+        <div class="carousel-caption">
+          <h3>Aomori</h3>
+          <p>Aomori is a prefecture of Japan located in the Tōhoku region. The capital is the city of Aomori.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Left and right controls -->
+
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" id="previous"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" id="next"></span>
+      <span class="sr-only">Next</span>
+    </a>
+
+  </div>
+</div>
+
+<!-- Container (Contact Section) -->
+<div id="contact" class="container-fluid bg-grey">
+  <h2 class="text-center">CONTACT</h2>
+  <div class="row">
+    <div class="col-sm-5">
+      <p>Contact us and we'll get back to you within 24 hours.</p>
+      <p><span class="glyphicon glyphicon-map-marker"></span> Bangkok, TH</p>
+      <p><span class="glyphicon glyphicon-phone"></span> +66 0894857066</p>
+      <p><span class="glyphicon glyphicon-envelope"></span> hotelhunter@gmail.com</p>
+    </div>
+    <div class="col-sm-7 slideanim">
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+        </div>
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+        </div>
+      </div>
+      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <button class="btn btn-default pull-right" type="submit">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer class="container-fluid text-center">
+  <a href="#myPage" title="To Top">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+  </a>
+  <p>2016 – 2017, All Rights Reserved.
+HotelHunter.com is part of Project Group Chulalongkorn University, online travel & related services.</p>
+  <p>Created By Group of Project, Help By <a href="https://www.w3schools.com" title="Visit w3schools">www.w3schools.com</a></p>
+
+</footer>
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links in navbar + footer link
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 900, function(){
+
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+
+  $(window).scroll(function() {
+    $(".slideanim").each(function(){
+      var pos = $(this).offset().top;
+
+      var winTop = $(window).scrollTop();
+        if (pos < winTop + 600) {
+          $(this).addClass("slide");
+        }
+    });
+  });
+
+})
+</script>
+
+</body>
+</html>
