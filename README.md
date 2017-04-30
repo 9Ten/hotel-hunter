@@ -1,7 +1,10 @@
 # hotel-hunter
 hotel recommender system with Django
 [www.HotelHunter.com](http://panapot.pythonanywhere.com/)
-	
+Implemented with algorithm "Dynamic ranking of hotels features depending on context".
+It can provide different recommendation when variation of context sets are acquired by target user.
+[Research](http://panapot.pythonanywhere.com/) Coming soon
+
 ### Sign In
 	username: u1
 	password: 1234
@@ -12,8 +15,8 @@ hotel recommender system with Django
 ### Companion:
 	[Solo, Friend, Couple, Family]
 	
-Features:
-* Member system
+## Features:
+- Member system
 * Search hotels
 * Filter hotel results by
 * Sort hotel results by
