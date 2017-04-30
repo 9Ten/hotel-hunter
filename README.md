@@ -1,7 +1,6 @@
 # hotel-hunter
-
-	hotel recommender system with Django
-	[HotelHunter](http://panapot.pythonanywhere.com/)
+hotel recommender system with Django
+[HotelHunter](http://panapot.pythonanywhere.com/)
 	
 ### Sign In
 	username: u1
