@@ -1,9 +1,10 @@
 # hotel-hunter
 hotel recommender system with Django
 [www.HotelHunter.com](http://panapot.pythonanywhere.com/)
+
 Implemented with algorithm __"Dynamic ranking of hotels features depending on context"__.
 It can provide different recommendation when variation of context sets are acquired by target user.
-[Research](http://panapot.pythonanywhere.com/) Coming soon
+[Research](http://panapot.pythonanywhere.com/)is coming soon
 
 ### Sign In
 	username: u1
