@@ -21,7 +21,7 @@ It can provide different recommendation when variation of context sets are acqui
 * Filter hotel results by
 * Sort hotel results by
 * Review and Rating Function
-* Recommender system *
+* __Recommender system *__
 
 ### Databases: [rec.sql](https://github.com/9Ten/hotel-hunter/blob/master/rec.sql)
 * 50 users
