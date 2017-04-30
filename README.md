@@ -1,6 +1,6 @@
 # hotel-hunter
 hotel recommender system with Django
-[HotelHunter](http://panapot.pythonanywhere.com/)
+[www.HotelHunter.com](http://panapot.pythonanywhere.com/)
 	
 ### Sign In
 	username: u1
@@ -12,3 +12,10 @@ hotel recommender system with Django
 ### Companion:
 	[Solo, Friend, Couple, Family]
 	
+Features:
+* Member system
+* Search hotels
+* Filter hotel results by
+* Sort hotel results by
+* Review and Rating Function
+* Recommender system *
