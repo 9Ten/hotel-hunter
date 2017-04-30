@@ -1,4 +1,4 @@
- # hotel-hunter
+# hotel-hunter
 hotel recommender system with Django
 [www.HotelHunter.com](http://panapot.pythonanywhere.com/)
 
@@ -7,8 +7,7 @@ It can provide different recommendation when variation of context sets are acqui
 [Research](http://panapot.pythonanywhere.com/) is coming soon
 
 ### Sign In
-	username: u1
-	password: 1234
+	username: u1, password: 1234
 ### Search:
 	[Bangkok, Singapore, Tokyo]
 ### Trip type:
@@ -16,7 +15,7 @@ It can provide different recommendation when variation of context sets are acqui
 ### Companion:
 	[Solo, Friend, Couple, Family]
 	
-## Features:
+### Features:
 * Member system
 * Search hotels
 * Filter hotel results by
@@ -24,7 +23,7 @@ It can provide different recommendation when variation of context sets are acqui
 * Review and Rating Function
 * Recommender system *
 
-## Databases: [rec.sql](https://github.com/9Ten/hotel-hunter/blob/master/rec.sql)
+### Databases: [rec.sql](https://github.com/9Ten/hotel-hunter/blob/master/rec.sql)
 * 50 users
 * 1500 records
 * 350 hotels
