@@ -3,7 +3,7 @@
 	hotel recommender system with Django
 	[HotelHunter](http://panapot.pythonanywhere.com/)
 	
-## Sign In
+### Sign In
 	username: u1
 	password: 1234
 ### Search:
