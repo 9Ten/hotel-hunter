@@ -24,8 +24,7 @@ It can provide different recommendation when variation of context sets are acqui
 * Review and Rating Function
 * Recommender system *
 
-## Databases:
+## Databases: [rec.sql](https://github.com/9Ten/hotel-hunter/blob/master/rec.sql)
 * 50 users
 * 1500 records
 * 350 hotels
-dump mysql [rec.sql](https://github.com/9Ten/hotel-hunter/blob/master/rec.sql)
